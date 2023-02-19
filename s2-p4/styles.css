@@ -30,7 +30,12 @@ header {
 
 .demo {
   width: calc(100% - 32px);
-  height: 100px;
+  height: 50px;
   margin: 16px;
   border: 2px dashed #ccc;
+}
+
+.active {
+  border-color: red;
+  background-color: salmon;
 }
