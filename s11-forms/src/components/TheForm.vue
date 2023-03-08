@@ -1,16 +1,23 @@
 <template>
-  <form>
-    <div class="form-control">
+  <form @submit.prevent="submitForm">
+    <div class="form-control" :class="{ invalid: !!userNameError }">
       <label for="user-name">Your Name</label>
-      <input id="user-name" name="user-name" type="text" />
+      <input
+        id="user-name"
+        name="user-name"
+        type="text"
+        v-model.trim="userName"
+        @blur="validateUsername"
+      />
+      <p v-if="userNameError">{{ userNameError }}</p>
     </div>
     <div class="form-control">
       <label for="age">Your Age (Years)</label>
-      <input id="age" name="age" type="number" />
+      <input id="age" name="age" type="number" v-model="userAge" />
     </div>
     <div class="form-control">
       <label for="referrer">How did you hear about us?</label>
-      <select id="referrer" name="referrer">
+      <select id="referrer" name="referrer" v-model="referer">
         <option value="google">Google</option>
         <option value="wom">Word of mouth</option>
         <option value="newspaper">Newspaper</option>
@@ -19,38 +26,139 @@
     <div class="form-control">
       <h2>What are you interested in?</h2>
       <div>
-        <input id="interest-news" name="interest" type="checkbox" />
+        <input
+          id="interest-news"
+          name="interest"
+          type="checkbox"
+          v-model="interest"
+          value="news"
+        />
         <label for="interest-news">News</label>
       </div>
       <div>
-        <input id="interest-tutorials" name="interest" type="checkbox" />
+        <input
+          id="interest-tutorials"
+          name="interest"
+          type="checkbox"
+          v-model="interest"
+          value="tutorials"
+        />
         <label for="interest-tutorials">Tutorials</label>
       </div>
       <div>
-        <input id="interest-nothing" name="interest" type="checkbox" />
+        <input
+          id="interest-nothing"
+          name="interest"
+          type="checkbox"
+          v-model="interest"
+          value="nothing"
+        />
         <label for="interest-nothing">Nothing</label>
       </div>
     </div>
     <div class="form-control">
       <h2>How do you learn?</h2>
       <div>
-        <input id="how-video" name="how" type="radio" />
+        <input
+          id="how-video"
+          name="how"
+          type="radio"
+          v-model="how"
+          value="video"
+        />
         <label for="how-video">Video Courses</label>
       </div>
       <div>
-        <input id="how-blogs" name="how" type="radio" />
+        <input
+          id="how-blogs"
+          name="how"
+          type="radio"
+          v-model="how"
+          value="blogs"
+        />
         <label for="how-blogs">Blogs</label>
       </div>
       <div>
-        <input id="how-other" name="how" type="radio" />
+        <input
+          id="how-other"
+          name="how"
+          type="radio"
+          v-model="how"
+          value="other"
+        />
         <label for="how-other">Other</label>
       </div>
+    </div>
+    <div class="form-control">
+      <h2>How do you learn?</h2>
+      <div>
+        <input
+          id="confirm-terms"
+          name="confirm-terms"
+          type="checkbox"
+          v-model="confirmTerms"
+          value="video"
+        />
+        <label for="confirm-terms">Agree?</label>
+      </div>
+    </div>
+    <div class="form-control">
+      <RatingControl v-model="rating" />
     </div>
     <div>
       <button>Save Data</button>
     </div>
   </form>
 </template>
+
+<script>
+import RatingControl from './RatingControl.vue';
+
+export default {
+  components: {
+    RatingControl,
+  },
+  data() {
+    return {
+      userName: 'Rad',
+      userNameError: null,
+      userAge: null,
+      referer: 'google',
+      interest: [],
+      how: null,
+      rating: null,
+      confirmTerms: false,
+    };
+  },
+  methods: {
+    submitForm() {
+      alert(`
+        Username: ${this.userName}
+        userAge: ${this.userAge}
+        referer: ${this.referer}
+        interest: ${this.interest}
+        how: ${this.how}
+        confirmTerms: ${this.confirmTerms}
+        rating: ${this.rating}
+      `);
+      this.clearForm();
+    },
+    clearForm() {
+      this.userName = '';
+      this.userNameError = null;
+      this.userAge = null;
+      this.referer = null;
+      this.interest = [];
+      this.how = null;
+      this.confirmTerms = false;
+      this.rating = null;
+    },
+    validateUsername() {
+      this.userNameError = !this.userName ? 'Errorrrrrrrrrrr!' : null;
+    },
+  },
+};
+</script>
 
 <style scoped>
 form {
@@ -64,6 +172,15 @@ form {
 
 .form-control {
   margin: 0.5rem 0;
+}
+
+.form-control.invalid input {
+  border-color: red;
+}
+
+.form-control.invalid label,
+.form-control.invalid p {
+  color: red;
 }
 
 label {
