@@ -1,20 +1,19 @@
 <template>
-  <the-navigation @set-page="setActivePage"></the-navigation>
+  <the-navigation></the-navigation>
   <main>
-    <component :is="activePage"></component>
+    <RouterView></RouterView>
   </main>
+  <footer>
+    <RouterView name="footer"></RouterView>
+  </footer>
 </template>
 
 <script>
-import TeamsList from './components/teams/TeamsList.vue';
-import UsersList from './components/users/UsersList.vue';
 import TheNavigation from './components/nav/TheNavigation.vue';
 
 export default {
   components: {
     TheNavigation,
-    TeamsList,
-    UsersList,
   },
   data() {
     return {
@@ -23,6 +22,9 @@ export default {
         { id: 't1', name: 'Frontend Engineers', members: ['u1', 'u2'] },
         { id: 't2', name: 'Backend Engineers', members: ['u1', 'u2', 'u3'] },
         { id: 't3', name: 'Client Consulting', members: ['u4', 'u5'] },
+        { id: 't4', name: 'Client Consulting2', members: ['u4', 'u5'] },
+        { id: 't5', name: 'Client Consulting3', members: ['u4'] },
+        { id: 't6', name: 'Client Consulting4', members: ['u5'] },
       ],
       users: [
         { id: 'u1', fullName: 'Max Schwarz', role: 'Engineer' },
@@ -38,11 +40,6 @@ export default {
       teams: this.teams,
       users: this.users,
     };
-  },
-  methods: {
-    setActivePage(page) {
-      this.activePage = page;
-    },
   },
 };
 </script>

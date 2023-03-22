@@ -2,13 +2,28 @@
   <li>
     <h3>{{ name }}</h3>
     <div class="team-members">{{ memberCount }} Members</div>
-    <a href="#">View Members</a>
+    <RouterLink :to="teamMemberLink">View Members</RouterLink>
   </li>
 </template>
 
 <script>
 export default {
-  props: ['name', 'memberCount'],
+  props: ['id', 'name', 'memberCount'],
+  computed: {
+    teamMemberLink() {
+      // return `/teams/${this.id}`;
+      return {
+        // path: `/teams/${this.id}`,
+        name: 'team-members',
+        params: {
+          teamId: this.id,
+        },
+        query: {
+          sort: 'asc',
+        },
+      };
+    },
+  },
 };
 </script>
 
